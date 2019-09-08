@@ -1,22 +1,86 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+int validaMatriz(int qtdElementos, int qtdLinhas, int qtdColunas){
+    FILE *arq;
+    
+    arq= fopen("entrada.txt","r");
+    
+    char ch;
+    qtdLinhas=1;
+    while((ch=fgetc(arq))!= EOF)
+    {
+        if(ch == '\n')
+        {
+            qtdLinhas++;
+        }
+        if(ch == ' ')
+        {
+            qtdElementos++;
+        }
+        
+    }
+    qtdElementos += qtdLinhas;
+    if(qtdElementos > 0 && qtdLinhas > 0)
+    {   
+        float calculoColunas;
+        calculoColunas = qtdElementos/qtdLinhas;
+        if(calculoColunas != (int)calculoColunas)
+        {
+            printf("Matriz Inválida!");
+            return 0;
+        }
+        else
+        {
+            qtdColunas = (int)calculoColunas;    
+        }
+        if(qtdLinhas % 2 != 0)
+        {
+            printf("O numero de linhas da matriz deve ser par!");
+            return 0;
+        }
+        if(qtdColunas % 2 != 0)
+        {
+            printf("O numero de colunas da matriz deve ser par!");
+            return 0;
+        }
+    }
+
+    fclose(arq);
+    printf("%d/%d\/%d\n\n", qtdLinhas, qtdColunas, qtdElementos);
+    return 1;
+}
+
+
 int main()
 {
+    int qtdElementos;
+    int qtdLinhas;
+    int qtdColunas;
+    int validacao;
+
+    validacao = validaMatriz(qtdElementos, qtdLinhas, qtdColunas);
+    if(validacao == 0)
+    {
+        return 0;
+    }
+    
+    printf("%d/%d\/%d\n\n", qtdLinhas, qtdColunas, qtdElementos);
+    
     int matriz[3][3];
     int i,j;
     int a,b;
-
-    FILE *fp;
     
-    fp= fopen("entrada.txt","r");
-    while(!feof(fp))
+    FILE *arq;
+    
+    arq= fopen("entrada.txt","r");
+    while(!feof(arq))
     {
         for(i=0;i<3;i++)
         {
             for(j=0;j<3;j++)
             {
-                fscanf(fp,"%d",&matriz[i][j]);
+                fscanf(arq,"%d",&matriz[i][j]);
             }
         }
     }
@@ -30,6 +94,6 @@ int main()
         printf("\n");
     }
 
-    fclose(fp);
+    fclose(arq);
     return 0;
 }
