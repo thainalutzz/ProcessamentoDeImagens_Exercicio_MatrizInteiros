@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int main()
+{
+    int matriz[3][3];
+    int i,j;
+    int a,b;
+
+    FILE *fp;
+    
+    fp= fopen("entrada.txt","r");
+    while(!feof(fp))
+    {
+        for(i=0;i<3;i++)
+        {
+            for(j=0;j<3;j++)
+            {
+                fscanf(fp,"%d",&matriz[i][j]);
+            }
+        }
+    }
+
+    for(a=0;a<3;a++)
+    {
+        for(b=0;b<3;b++)
+        {
+            printf("%d|",matriz[a][b]);
+        }
+        printf("\n");
+    }
+
+    fclose(fp);
+    return 0;
+}
