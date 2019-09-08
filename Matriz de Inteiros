@@ -6,7 +6,7 @@ int calculaQtdLinhas(FILE *arq, int qtdLinhas){
     qtdLinhas=1;
     while((ch=fgetc(arq))!= EOF)
     {
-        if(ch == '\n')
+        if(ch == '\r')
         {
             qtdLinhas++;
         }
