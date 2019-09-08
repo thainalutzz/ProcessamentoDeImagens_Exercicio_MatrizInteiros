@@ -1,10 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int calculaQtdLinhas(int qtdLinhas){
-    FILE *arq;
-    arq= fopen("entrada.txt","r");
-    
+int calculaQtdLinhas(FILE *arq, int qtdLinhas){
     char ch;
     qtdLinhas=1;
     while((ch=fgetc(arq))!= EOF)
@@ -15,14 +12,10 @@ int calculaQtdLinhas(int qtdLinhas){
         }
         
     }
-    fclose(arq);
     return qtdLinhas;
 }
 
-int calculaQtdElementos(int qtdLinhas, int qtdElementos){
-    FILE *arq;
-    arq= fopen("entrada.txt","r");
-    
+int calculaQtdElementos(FILE *arq, int qtdLinhas, int qtdElementos){
     char ch;
     while((ch=fgetc(arq))!= EOF)
     {
@@ -33,7 +26,6 @@ int calculaQtdElementos(int qtdLinhas, int qtdElementos){
         
     }
     qtdElementos += qtdLinhas;
-    fclose(arq);
     return qtdElementos;
 }
 
@@ -168,9 +160,24 @@ void imprimeMatrizFinal (int qtdLinhas, int qtdColunas, int matriz[qtdLinhas][qt
 
 int main()
 {
-    int qtdLinhas = calculaQtdLinhas(qtdLinhas);
-    int qtdElementos = calculaQtdElementos(qtdLinhas, qtdElementos);
+    //Fecha o aquivo com a matriz original
+    FILE *arqCalculos;
+    arqCalculos = fopen("entrada.txt","r");
+    if(arqCalculos == NULL)
+    {
+     printf("Erro, nao foi possivel abrir o arquivo\n");
+     return 0;
+    }
+    
+    int qtdLinhas = calculaQtdLinhas(arqCalculos, qtdLinhas);
+    int qtdElementos = calculaQtdElementos(arqCalculos, qtdLinhas, qtdElementos);
+    
+    //Fecha o aquivo com a matriz original
+    fclose(arqCalculos);
+    
     int qtdColunas = calculaQtdColunas(qtdLinhas, qtdElementos, qtdColunas);
+    
+    
     printf("%d/%d/%d\n\n", qtdLinhas, qtdElementos, qtdColunas);
 
     qtdLinhas = 6;
