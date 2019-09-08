@@ -66,6 +66,14 @@ int validaMatriz(int qtdLinhas, int qtdElementos, int qtdColunas){
             printf("Matriz Inválida!");
             return 0;
         }
+        //if(qtdLinhas < 50){
+        //    printf("O numero de linhas da matriz deve ser no minimo 50!");
+        //    return 0;
+        //}
+        //if(qtdColunas < 50){
+        //    printf("O numero de colunas da matriz deve ser no minimo 50!");
+        //    return 0;
+        //}
         if(qtdLinhas % 2 != 0)
         {
             printf("O numero de linhas da matriz deve ser par!");
