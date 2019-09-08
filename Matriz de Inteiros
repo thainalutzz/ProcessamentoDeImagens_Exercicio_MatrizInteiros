@@ -97,6 +97,20 @@ int preencheMatrizComArquivo (FILE *arq, int qtdLinhas, int qtdColunas, int matr
     fclose(arq);
 }
 
+int validaMatrizNumeros (int qtdLinhas, int qtdColunas, int matriz[qtdLinhas][qtdColunas]){
+    int i=0, j=0;
+    for(i=0;i<qtdLinhas;i++)
+    {
+        for(j=0;j<qtdColunas;j++)
+        {
+            if(matriz[i][j]>255 || matriz[i][j] < 0){
+                printf("Matriz Inválida!");
+                return 0;
+            }
+        }
+    }
+}
+
 void imprimeMatriz (int qtdLinhas, int qtdColunas, int matriz[qtdLinhas][qtdColunas]){
     int i=0, j=0;
     for(i=0;i<qtdLinhas;i++)
@@ -168,6 +182,13 @@ int main()
     //Preenche a Matriz Original
     int matriz[qtdLinhas][qtdColunas];
     matriz[qtdLinhas][qtdColunas] = preencheMatrizComArquivo(arq, qtdLinhas, qtdColunas, matriz);
+    
+    //Valida numeros preenchidos na Matriz Original
+    validacao = validaMatrizNumeros(qtdLinhas, qtdColunas, matriz);
+    if(validacao == 0)
+    {
+        return 0;
+    }
     
     //Imprime a Matriz Original
     printf(":: MATRIZ ORIGINAL ::\n");
