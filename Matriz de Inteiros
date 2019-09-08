@@ -1,9 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int validaMatriz(int qtdElementos, int qtdLinhas, int qtdColunas){
+int calculaQtdLinhas(int qtdLinhas){
     FILE *arq;
-    
     arq= fopen("entrada.txt","r");
     
     char ch;
@@ -14,13 +13,50 @@ int validaMatriz(int qtdElementos, int qtdLinhas, int qtdColunas){
         {
             qtdLinhas++;
         }
+        
+    }
+    fclose(arq);
+    return qtdLinhas;
+}
+
+int calculaQtdElementos(int qtdLinhas, int qtdElementos){
+    FILE *arq;
+    arq= fopen("entrada.txt","r");
+    
+    char ch;
+    while((ch=fgetc(arq))!= EOF)
+    {
         if(ch == ' ')
         {
             qtdElementos++;
         }
         
     }
-    qtdElementos += qtdLinhas;
+    qtdElementos += qtdLinhas-1;
+    fclose(arq);
+    return qtdElementos;
+}
+
+int calculaQtdColunas(int qtdLinhas, int qtdElementos, int qtdColunas){
+    if(qtdElementos > 0 && qtdLinhas > 0)
+    {   
+        float calculoColunas;
+        calculoColunas = qtdElementos/qtdLinhas;
+        if(calculoColunas != (int)calculoColunas)
+        {
+            //Matriz inválida
+            return 0;
+        }
+        else
+        {
+            qtdColunas = (int)calculoColunas;    
+        }
+    }
+    return qtdColunas;
+}
+
+
+int validaMatriz(int qtdLinhas, int qtdElementos, int qtdColunas){
     if(qtdElementos > 0 && qtdLinhas > 0)
     {   
         float calculoColunas;
@@ -29,10 +65,6 @@ int validaMatriz(int qtdElementos, int qtdLinhas, int qtdColunas){
         {
             printf("Matriz Inválida!");
             return 0;
-        }
-        else
-        {
-            qtdColunas = (int)calculoColunas;    
         }
         if(qtdLinhas % 2 != 0)
         {
@@ -45,29 +77,26 @@ int validaMatriz(int qtdElementos, int qtdLinhas, int qtdColunas){
             return 0;
         }
     }
-
-    fclose(arq);
-    printf("%d/%d\/%d\n\n", qtdLinhas, qtdColunas, qtdElementos);
     return 1;
 }
 
 
 int main()
 {
-    int qtdElementos;
-    int qtdLinhas;
-    int qtdColunas;
-    int validacao;
+    int qtdLinhas = calculaQtdLinhas(qtdLinhas);
+    int qtdElementos = calculaQtdElementos(qtdLinhas, qtdElementos);
+    int qtdColunas = calculaQtdColunas(qtdLinhas, qtdElementos, qtdColunas);
+        printf("%d/%d/%d\n\n", qtdLinhas, qtdElementos, qtdColunas);
 
-    validacao = validaMatriz(qtdElementos, qtdLinhas, qtdColunas);
+    int validacao = validaMatriz(qtdLinhas, qtdElementos, qtdColunas);
     if(validacao == 0)
     {
         return 0;
     }
     
-    printf("%d/%d\/%d\n\n", qtdLinhas, qtdColunas, qtdElementos);
+    printf("%d/%d/%d\n\n", qtdLinhas, qtdElementos, qtdColunas);
     
-    int matriz[3][3];
+    int matriz[qtdLinhas][qtdColunas];
     int i,j;
     int a,b;
     
@@ -76,18 +105,18 @@ int main()
     arq= fopen("entrada.txt","r");
     while(!feof(arq))
     {
-        for(i=0;i<3;i++)
+        for(i=0;i<qtdLinhas;i++)
         {
-            for(j=0;j<3;j++)
+            for(j=0;j<4;j++)
             {
                 fscanf(arq,"%d",&matriz[i][j]);
             }
         }
     }
 
-    for(a=0;a<3;a++)
+    for(a=0;a<qtdLinhas;a++)
     {
-        for(b=0;b<3;b++)
+        for(b=0;b<4;b++)
         {
             printf("%d|",matriz[a][b]);
         }
