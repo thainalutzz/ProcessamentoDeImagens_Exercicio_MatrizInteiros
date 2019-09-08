@@ -97,25 +97,6 @@ int preencheMatrizComArquivo (FILE *arq, int qtdLinhas, int qtdColunas, int matr
     fclose(arq);
 }
 
-int modificaMatriz (int qtdLinhas, int qtdColunas, int matriz[qtdLinhas][qtdColunas], int matrizFinal[qtdLinhas][qtdColunas]){
-    int i,j;
-    
-    for(i=0;i<qtdLinhas;i++)
-    {
-        for(j=0;j<qtdColunas;j++)
-        {
-            if(i % 2 == 0 && j % 2 == 0){
-                matrizFinal[i][j] = matriz[i][j];
-            }
-            else
-            {
-                matrizFinal[i][j] = 0;
-            }
-        }
-    }
-    return matrizFinal;
-}
-
 void imprimeMatriz (int qtdLinhas, int qtdColunas, int matriz[qtdLinhas][qtdColunas]){
     int i=0, j=0;
     for(i=0;i<qtdLinhas;i++)
@@ -137,14 +118,31 @@ void geraArquivoComMatrizFinal (FILE *arqFinal, int qtdLinhas, int qtdColunas, i
     {
        for (j=0; j<qtdColunas; j++)
         {
+            if(i % 2 == 0 && j % 2 == 0)
+            {
             //fputc(matriz[i][j], arqFinal);
             fprintf (arqFinal, "%d ", matriz[i][j]);
+            }
         } 
         fputc('\n', arqFinal);
     }
     fclose(arqFinal);
 }
 
+void imprimeMatrizFinal (int qtdLinhas, int qtdColunas, int matriz[qtdLinhas][qtdColunas]){
+    int i=0, j=0;
+    for(i=0;i<qtdLinhas;i++)
+    {
+        for(j=0;j<qtdColunas;j++)
+        {
+            if(i % 2 == 0 && j % 2 == 0)
+            {
+                printf("%d ",matriz[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
 
 int main()
 {
@@ -176,21 +174,13 @@ int main()
     imprimeMatriz(qtdLinhas, qtdColunas, matriz);
     printf(":::::::::::::::::::::\n");
     
-    
-    FILE *arqFinal;
-    
-    //Modifica a Matriz para manter somente as linhas e colunas 0 e pares
-    int matrizFinal[qtdLinhas][qtdColunas];
-    matrizFinal[qtdLinhas][qtdColunas] = modificaMatriz(qtdLinhas, qtdColunas, matriz, matrizFinal);
-    
-    //qtdLinhas = qtdLinhas/2;
-    //qtdColunas = qtdColunas/2;
     //Gera o arquivo com a Matriz de linhas e colunas 0 e pares
-    geraArquivoComMatrizFinal(arqFinal, qtdLinhas, qtdColunas, matrizFinal);
+    FILE *arqFinal;
+    geraArquivoComMatrizFinal(arqFinal, qtdLinhas, qtdColunas, matriz);
     
     //Imprime a Matriz Final
     printf(":: MATRIZ FINAL ::\n");
-    imprimeMatriz(qtdLinhas, qtdColunas, matrizFinal);
+    imprimeMatrizFinal(qtdLinhas, qtdColunas, matriz);
     printf(":::::::::::::::::::::\n");
 
     return 0;
